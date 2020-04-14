@@ -4,6 +4,7 @@ package com.ecommerce.authenticationservice.validator;
  * @Author TechMtk
  * created on 4/10/2020
  */
+import com.ecommerce.authenticationservice.models.ConcreteUser;
 import com.ecommerce.authenticationservice.models.User;
 import com.ecommerce.authenticationservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,17 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
+        // Switch Here
+       // return ConcreteUser.UserBuilder.class.equals(aClass);
         return User.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
+      //  ConcreteUser.UserBuilder user = (ConcreteUser.UserBuilder) o;
         User user = (User) o;
+
+        //And Here replace all 'build().' with Blank
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
         if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {

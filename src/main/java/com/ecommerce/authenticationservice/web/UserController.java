@@ -4,6 +4,7 @@ package com.ecommerce.authenticationservice.web;
  * @Author TechMtk
  * created on 4/10/2020
  */
+import com.ecommerce.authenticationservice.models.ConcreteUser;
 import com.ecommerce.authenticationservice.models.User;
 import com.ecommerce.authenticationservice.service.SecurityService;
 import com.ecommerce.authenticationservice.service.UserService;
@@ -38,6 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
+    //Switch Here
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
 
@@ -45,11 +47,12 @@ public class UserController {
             return "registration";
         }
 
+        // and Here replace build().
         userService.save(userForm);
-
 		securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/login";
+        // return "redirect:/login";
+        return "redirect:/welcome";
     }
 
     @GetMapping("/login")

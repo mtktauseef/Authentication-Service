@@ -5,6 +5,7 @@ package com.ecommerce.authenticationservice.service;
  * created on 4/10/2020
  */
 
+import com.ecommerce.authenticationservice.models.ConcreteUser;
 import com.ecommerce.authenticationservice.models.Role;
 import com.ecommerce.authenticationservice.models.User;
 import com.ecommerce.authenticationservice.repo.UserRepository;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Set;
+
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Autowired
@@ -26,6 +29,19 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
+
+//        ConcreteUser.UserBuilder userBuilder;
+//
+//        userBuilder = userRepository.findByUsername(username);
+//        if (userBuilder == null) throw new UsernameNotFoundException(username);
+//
+//        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+//        for (Role role : userBuilder.build().getRoles()){
+//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+//        }
+//
+//        return new org.springframework.security.core.userdetails.User(userBuilder.build().getUsername(), userBuilder.build().getPassword(), grantedAuthorities);
+
         User user = userRepository.findByUsername(username);
         if (user == null) throw new UsernameNotFoundException(username);
 
