@@ -1,22 +1,32 @@
-package com.ecommerce.authenticationservice.models; /*
- * @Author TechMtk
- * created on 4/10/2020
- */
+package com.ecommerce.authenticationservice.models;
+
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.Set;
 
+/*
+ * @Author Tauseef
+ * created on 4/12/2020
+ */
 @Entity
-@Table(name = "role")
+@Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @NaturalId
+    @Column(length = 60)
+    private RoleName name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    public Role() {
+
+    }
+
+    public Role(RoleName name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -26,19 +36,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
+    public RoleName getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(RoleName name) {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 }

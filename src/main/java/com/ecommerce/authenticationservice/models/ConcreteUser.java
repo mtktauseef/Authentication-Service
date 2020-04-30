@@ -1,98 +1,115 @@
 package com.ecommerce.authenticationservice.models;
 
+import com.ecommerce.authenticationservice.models.audit.DateAudit;
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 /*
- * @Author TechMtk
- * created on 4/13/2020
+ * @Author Tauseef
+ * created on 4/12/2020
  */
+@Entity
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "username"
+        }),
+        @UniqueConstraint(columnNames = {
+                "email"
+        })
+})
+public class ConcreteUser extends DateAudit {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//@Entity
-//@Table(name = "username")
-public class ConcreteUser {
-   // @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
-    private final String username;
-    private final String password;
+    @NotBlank
+    @Size(max = 40)
+    private String name;
 
-    //@Transient
-    private final String passwordConfirm;
+    @NotBlank
+    @Size(max = 15)
+    private String username;
 
-    //@ManyToMany
-    private final Set<Role> roles;
+    @NaturalId
+    @NotBlank
+    @Size(max = 40)
+    @Email
+    private String email;
 
-    //Only Getter in this Class
-    // Initializing Constructer
+    @NotBlank
+    @Size(max = 100)
+    private String password;
 
-    public ConcreteUser(Long id, String username, String password,String passwordConfirm,Set<Role>  roles) {
-        this.id = id;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public ConcreteUser(String name, String username, String email, String password) {
+        this.name = name;
         this.username = username;
-        this.password = password;
-        this.passwordConfirm = passwordConfirm;
-        this.roles = roles;
+        this.email = email;
+        this.password =password;
     }
-
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
     }
 
-    public String getPasswordConfirm(){
-        return passwordConfirm;
+    public void setPassword(String password) {
+        this.password = password;
     }
+
     public Set<Role> getRoles() {
         return roles;
     }
 
-     ///@Entity
-    public static class UserBuilder{
-        private Long id;
-        private String username;
-        private String password;
-
-       // @ManyToMany
-        private Set<Role> roles;
-
-       // @Transient
-        private String passwordConfirm;
-
-        // Only Setter in this class
-        public UserBuilder id(Long id){
-            this.id =id;
-            return this;
-        }
-        public UserBuilder setUsername(String username) {
-            this.username = username;
-            return this;
-        }
-
-        public UserBuilder setPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public UserBuilder setPasswordConfirm(String passwordConfirm) {
-            this.passwordConfirm = passwordConfirm;
-            return this;
-        }
-
-        public UserBuilder setRoles(Set<Role> roles) {
-            this.roles = roles;
-            return this;
-        }
-
-        public ConcreteUser build(){
-            return new ConcreteUser(id,username,password, passwordConfirm,roles);
-        }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
+
+    /*
+    Builder Class for Concrete User
+    Only Setters
+     */
+      
 }
