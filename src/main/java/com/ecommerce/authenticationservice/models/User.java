@@ -2,7 +2,6 @@ package com.ecommerce.authenticationservice.models;
 
 import com.ecommerce.authenticationservice.models.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

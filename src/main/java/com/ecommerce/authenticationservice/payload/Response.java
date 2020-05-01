@@ -4,7 +4,7 @@ package com.ecommerce.authenticationservice.payload;
  * @Author Tauseef, Prashant, Rainy, Tarun
  * created on 4/16/2020
  */
-public class ChoiceResponse {
+public class Response {
     private long id;
     private String text;
     private long voteCount;
